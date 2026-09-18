@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="ar" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1, user-scalable=no">
+<meta name="theme-color" content="#FCF8EF">
+<title>مكتبة الشروق</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --cream:#FCF8EF;
+    --navy:#0C2074;
+    --navy-2:#132a86;
+    --gold:#FDB302;
+    --yellow:#FED341;
+    --purple:#611DD6;
+    --purple-light:#F4F2FE;
+    --purple-dark:#2E0495;
+    --orange:#FF7A1A;
+    --red:#EC0815;
+    --red-light:#FEEDEE;
+    --blue-book:#246CD0;
+    --pink-book:#FC4358;
+    --yellow-book:#F7CA3A;
+  }
+  *{box-sizing:border-box;}
+  html,body{
+    margin:0;padding:0;
+    min-height:100%;width:100%;
+    background:var(--cream);
+    font-family:'Cairo',-apple-system,sans-serif;
+    -webkit-user-select:none;
+    user-select:none;
+    overscroll-behavior:none;
+  }
+  body{ position:relative; overflow-x:hidden; }
+
+  /* ================= SPLASH ================= */
+  .splash{
+    position:fixed; inset:0; z-index:9999;
+    background:var(--cream);
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    gap:14px;
+    transition:opacity .5s ease, transform .55s ease;
+  }
+  .splash.hide{ opacity:0; transform:scale(1.03); pointer-events:none; }
+  .splash-logo{ width:96px; height:auto; opacity:0; animation:logoPop .5s cubic-bezier(.3,1.4,.5,1) forwards .1s; }
+  @keyframes logoPop{ from{opacity:0; transform:translateY(6px) scale(.85);} to{opacity:1; transform:translateY(0) scale(1);} }
+
+  .write-wrap{ position:relative; width:290px; height:64px; }
+  .write-text{
+    position:absolute; inset:0;
+    display:flex; align-items:center; justify-content:center;
+    font-weight:900; font-size:40px; color:var(--navy);
+    white-space:nowrap;
+    clip-path:inset(0 0 0 100%);
+    animation:writeReveal 1.15s cubic-bezier(.65,0,.35,1) forwards .55s;
+  }
+  @keyframes writeReveal{ to{ clip-path:inset(0 0 0 0%); } }
+  .write-tip{
+    position:absolute; top:2px; width:16px; height:16px;
+    opacity:0;
+    animation:tipMove 1.15s cubic-bezier(.65,0,.35,1) forwards .55s, tipShow .2s ease forwards .55s;
+  }
+  @keyframes tipShow{ to{opacity:1;} }
+  @keyframes tipMove{ from{ right:6px; } to{ right:278px; } }
+  .write-underline{
+    width:0%; height:4px; border-radius:3px;
+    background:linear-gradient(90deg, var(--gold), var(--yellow));
+    animation:underlineDraw .4s ease forwards 1.75s;
+  }
+  @keyframes underlineDraw{ to{ width:180px; } }
+
+  @media (prefers-reduced-motion:reduce){ .splash{display:none;} }
+
+  /* ================= PAGE ================= */
+  .page{ position:relative; width:100%; min-height:100vh; overflow:hidden; padding-bottom:40px; }
+
+  .top-wave{ position:absolute; top:0; left:0; width:100%; z-index:0; }
+  .top-wave svg{ width:100%; display:block; }
+
+  .header{ position:relative; padding:38px 18px 26px; text-align:center; z-index:1; min-height:330px; }
+
+  .deco{ position:absolute; }
+  .books-deco{ top:0px; left:6px; width:124px; }
+  .cup-deco{ top:4px; right:6px; width:108px; }
+  .heart-deco{ top:70px; right:76px; width:32px; }
+  .star-deco{ top:255px; left:30px; width:30px; }
+  .spark-a{ top:50px; left:190px; width:26px; }
+  .spark-b{ top:88px; right:190px; width:22px; }
+  .spark-c{ top:250px; right:56px; width:26px; }
+  .spark-d{ top:252px; left:150px; width:20px; }
+
+  .logo-mark{ width:150px; margin:14px auto 6px; }
+  .logo-mark svg{ width:100%; display:block; }
+
+  .title{
+    margin:4px 0 10px;
+    font-size:40px;
+    font-weight:900;
+    color:var(--navy);
+    line-height:1.15;
+  }
+  .tagline{
+    text-align:center;
+    font-size:16px; font-weight:700; color:var(--navy);
+    margin-bottom:4px;
+  }
+  .tagline .ul{
+    position:relative;
+    display:inline-block;
+  }
+  .tagline .ul::after{
+    content:'';
+    position:absolute; left:2px; right:2px; bottom:-4px; height:3px;
+    background:var(--gold); border-radius:2px;
+  }
+
+  .cards{ position:relative; z-index:1; padding:8px 20px 4px; display:flex; flex-direction:column; gap:22px; }
+
+  .pay-card{
+    display:block;
+    text-decoration:none;
+    border-radius:26px;
+    padding:22px 18px 18px;
+    position:relative;
+    border:2.5px solid;
+    box-shadow:0 10px 24px rgba(20,10,60,.08);
+  }
+  .pay-card.instapay{ background:var(--purple-light); border-color:#CFC3F7; }
+  .pay-card.vodafone{ background:var(--red-light); border-color:#F9C7CB; }
+
+  .pay-logo-row{ display:flex; align-items:center; justify-content:center; gap:10px; margin-bottom:16px; }
+  .pay-logo-row svg{ display:block; }
+
+  .pay-ribbon{
+    display:flex; align-items:center; justify-content:center;
+    height:46px; border-radius:23px;
+    color:#fff; font-weight:800; font-size:16px;
+    margin-bottom:14px;
+  }
+  .pay-ribbon.p{ background:linear-gradient(95deg,#7B3DEA,var(--purple)); }
+  .pay-ribbon.v{ background:linear-gradient(95deg,#FF4D5E,var(--red)); }
+
+  .pay-input{
+    display:flex; align-items:center; gap:10px;
+    height:52px; border-radius:16px; background:#fff;
+    padding:0 16px;
+    border:1.5px solid rgba(0,0,0,.06);
+  }
+  .pay-input svg{ flex:0 0 auto; }
+  .pay-input span{ color:#9a95a8; font-weight:600; font-size:14.5px; }
+  .pay-card.vodafone .pay-input span{ color:#b48088; }
+
+  .footer{ position:relative; z-index:1; text-align:center; padding:30px 20px 20px; }
+  .footer-tag{
+    display:inline-flex; align-items:center; gap:8px;
+    font-weight:800; font-size:16px; color:var(--navy);
+    position:relative;
+  }
+  .footer-tag::after{
+    content:''; position:absolute; left:26px; right:26px; bottom:-5px; height:3px;
+    background:var(--gold); border-radius:2px;
+  }
+
+  .bottom-wave{ position:relative; margin-top:26px; z-index:0; }
+  .bottom-wave .wave-svg{ width:100%; display:block; }
+  .foot-deco{ position:absolute; }
+  .books2-deco{ bottom:6px; right:4px; width:118px; z-index:1; }
+  .plane-deco{ bottom:36px; left:14px; width:70px; z-index:1; }
+</style>
+</head>
+<body>
+
+  <div class="splash" id="splash">
+    <div class="splash-logo">
+      <svg viewBox="0 0 200 130" xmlns="http://www.w3.org/2000/svg">
+        <g stroke="#FDB302" stroke-width="6" stroke-linecap="round">
+          <line x1="100" y1="8" x2="100" y2="22"/>
+          <line x1="66" y1="17" x2="74" y2="29"/>
+          <line x1="134" y1="17" x2="126" y2="29"/>
+          <line x1="44" y1="40" x2="58" y2="46"/>
+          <line x1="156" y1="40" x2="142" y2="46"/>
+        </g>
+        <circle cx="100" cy="48" r="26" fill="#FDB302"/>
+        <path d="M100 62 C70 44 40 44 24 54 C24 66 24 76 24 82 C46 68 80 70 100 88 C120 70 154 68 176 82 C176 76 176 66 176 54 C160 44 130 44 100 62 Z" fill="#0C2074"/>
+        <path d="M24 54 C40 44 70 44 100 62 C100 62 100 62 100 62" fill="none" stroke="#FDB302" stroke-width="4" stroke-linecap="round"/>
+        <path d="M176 54 C160 44 130 44 100 62" fill="none" stroke="#FDB302" stroke-width="4" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <div class="write-wrap">
+      <div class="write-text">مكتبة الشروق</div>
+      <svg class="write-tip" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path d="M12 2 L14.5 9.5 L22 12 L14.5 14.5 L12 22 L9.5 14.5 L2 12 L9.5 9.5 Z" fill="#FDB302"/>
+      </svg>
+    </div>
+    <div class="write-underline"></div>
+  </div>
+
+  <div class="page" id="page">
+
+    <div class="top-wave">
+      <svg viewBox="0 0 400 90" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M0 0 L400 0 L400 40 C320 75 260 15 195 30 C130 45 90 75 0 45 Z" fill="#FED341"/>
+      </svg>
+    </div>
+
+    <div class="header">
+
+      <svg class="deco books-deco" viewBox="0 0 140 110" xmlns="http://www.w3.org/2000/svg">
+        <g transform="rotate(-4 70 85)">
+          <rect x="6" y="70" width="120" height="30" rx="8" fill="#F7CA3A"/>
+          <rect x="6" y="70" width="10" height="30" rx="4" fill="#fff" opacity=".35"/>
+          <text x="66" y="90" text-anchor="middle" font-family="Cairo" font-weight="800" font-size="15" fill="#5c3d00">Success</text>
+        </g>
+        <g transform="rotate(-2 70 55)">
+          <rect x="2" y="38" width="124" height="30" rx="8" fill="#FC4358"/>
+          <rect x="2" y="38" width="10" height="30" rx="4" fill="#fff" opacity=".35"/>
+          <text x="64" y="58" text-anchor="middle" font-family="Cairo" font-weight="800" font-size="15" fill="#fff">Stationery</text>
+        </g>
+        <g transform="rotate(-6 70 25)">
+          <rect x="0" y="4" width="118" height="30" rx="8" fill="#246CD0"/>
+          <rect x="0" y="4" width="10" height="30" rx="4" fill="#fff" opacity=".35"/>
+          <text x="58" y="24" text-anchor="middle" font-family="Cairo" font-weight="800" font-size="15" fill="#fff">Books</text>
+        </g>
+      </svg>
+
+      <svg class="deco cup-deco" viewBox="0 0 130 120" xmlns="http://www.w3.org/2000/svg">
+        <g transform="rotate(-18 40 30)"><rect x="34" y="6" width="9" height="60" rx="4.5" fill="#EC0815"/></g>
+        <g transform="rotate(-6 55 30)"><rect x="52" y="0" width="9" height="64" rx="4.5" fill="#0C2074"/></g>
+        <g transform="rotate(8 70 30)"><rect x="68" y="4" width="9" height="60" rx="4.5" fill="#F7CA3A"/></g>
+        <path d="M22 52 C22 46 26 44 30 44 L84 44 C88 44 92 46 92 52 L88 100 C87 110 78 116 57 116 C36 116 27 110 26 100 Z" fill="#ffffff" stroke="#eee" stroke-width="1"/>
+        <ellipse cx="57" cy="52" rx="35" ry="8" fill="#f3f3f3"/>
+        <circle cx="45" cy="82" r="3" fill="#0C2074"/>
+        <circle cx="69" cy="82" r="3" fill="#0C2074"/>
+        <path d="M46 94 Q57 102 68 94" stroke="#0C2074" stroke-width="3" fill="none" stroke-linecap="round"/>
+      </svg>
+
+      <svg class="deco heart-deco" viewBox="0 0 40 36" xmlns="http://www.w3.org/2000/svg">
+        <path d="M20 32 C6 22 2 14 6 8 C10 2 18 4 20 11 C22 4 30 2 34 8 C38 14 34 22 20 32 Z" fill="none" stroke="#0C2074" stroke-width="3" stroke-linejoin="round"/>
+      </svg>
+
+      <svg class="deco star-deco" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+        <path d="M20 2 L24 16 L38 20 L24 24 L20 38 L16 24 L2 20 L16 16 Z" fill="#FDB302"/>
+      </svg>
+
+      <svg class="deco spark-a" viewBox="0 0 30 30" xmlns="http://www.w3.org/2000/svg">
+        <g stroke="#FDB302" stroke-width="4" stroke-linecap="round">
+          <line x1="15" y1="2" x2="15" y2="12"/>
+          <line x1="15" y1="18" x2="15" y2="28"/>
+          <line x1="2" y1="15" x2="12" y2="15"/>
+        </g>
+      </svg>
+      <svg class="deco spark-b" viewBox="0 0 30 30" xmlns="http://www.w3.org/2000/svg">
+        <g stroke="#0C2074" stroke-width="3.5" stroke-linecap="round">
+          <line x1="15" y1="2" x2="15" y2="12"/>
+          <line x1="15" y1="18" x2="15" y2="28"/>
+        </g>
+      </svg>
+      <svg class="deco spark-c" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+        <path d="M20 4 L23 17 L20 20 L17 17 Z M20 20 L23 23 L20 36 L17 23 Z" fill="#FDB302"/>
+      </svg>
+      <svg class="deco spark-d" viewBox="0 0 30 30" xmlns="http://www.w3.org/2000/svg">
+        <g stroke="#FDB302" stroke-width="4" stroke-linecap="round">
+          <line x1="6" y1="15" x2="16" y2="15"/>
+          <line x1="20" y1="8" x2="26" y2="4"/>
+          <line x1="20" y1="22" x2="26" y2="26"/>
+        </g>
+      </svg>
+
+      <div class="logo-mark">
+        <svg viewBox="0 0 200 130" xmlns="http://www.w3.org/2000/svg">
+          <g stroke="#FDB302" stroke-width="6" stroke-linecap="round">
+            <line x1="100" y1="8" x2="100" y2="22"/>
+            <line x1="66" y1="17" x2="74" y2="29"/>
+            <line x1="134" y1="17" x2="126" y2="29"/>
+            <line x1="44" y1="40" x2="58" y2="46"/>
+            <line x1="156" y1="40" x2="142" y2="46"/>
+          </g>
+          <circle cx="100" cy="48" r="26" fill="#FDB302"/>
+          <path d="M100 62 C70 44 40 44 24 54 C24 66 24 76 24 82 C46 68 80 70 100 88 C120 70 154 68 176 82 C176 76 176 66 176 54 C160 44 130 44 100 62 Z" fill="#0C2074"/>
+          <path d="M24 54 C40 44 70 44 100 62" fill="none" stroke="#FDB302" stroke-width="4" stroke-linecap="round"/>
+          <path d="M176 54 C160 44 130 44 100 62" fill="none" stroke="#FDB302" stroke-width="4" stroke-linecap="round"/>
+        </svg>
+      </div>
+
+      <h1 class="title">مكتبة الشروق</h1>
+      <div class="tagline">كل اللي محتاجه <span class="ul">..</span> في مكان واحد</div>
+    </div>
+
+    <div class="cards">
+      <!-- IMPORTANT: replace href with the real InstaPay payment link -->
+      <a class="pay-card instapay" href="#" target="_blank" rel="noopener noreferrer">
+        <div class="pay-logo-row">
+          <svg class="pay-spark" width="20" height="20" viewBox="0 0 30 30" xmlns="http://www.w3.org/2000/svg">
+            <g stroke="#8B5CF0" stroke-width="4" stroke-linecap="round">
+              <line x1="15" y1="2" x2="15" y2="11"/>
+              <line x1="15" y1="19" x2="15" y2="28"/>
+              <line x1="2" y1="15" x2="11" y2="15"/>
+            </g>
+          </svg>
+          <svg width="168" height="34" viewBox="0 0 260 50" xmlns="http://www.w3.org/2000/svg">
+            <text x="0" y="36" font-family="Cairo" font-weight="900" font-size="34" fill="#2E0495">INSTA</text>
+            <path d="M150 11 L169 25 L150 39 L150 30 L139 30 L139 20 L150 20 Z" fill="#FF7A1A"/>
+            <path d="M166 11 L185 25 L166 39 L166 30 L155 30 L155 20 L166 20 Z" fill="#611DD6"/>
+            <text x="192" y="36" font-family="Cairo" font-weight="900" font-size="34" fill="#2E0495">PAY</text>
+          </svg>
+          <svg class="pay-spark" width="20" height="20" viewBox="0 0 30 30" xmlns="http://www.w3.org/2000/svg">
+            <g stroke="#8B5CF0" stroke-width="4" stroke-linecap="round">
+              <line x1="6" y1="15" x2="15" y2="15"/>
+              <line x1="19" y1="8" x2="25" y2="4"/>
+              <line x1="19" y1="22" x2="25" y2="26"/>
+            </g>
+          </svg>
+        </div>
+        <div class="pay-ribbon p">ادفع عن طريق انستا باي</div>
+        <div class="pay-input">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="6" y="2" width="12" height="20" rx="3" stroke="#611DD6" stroke-width="2"/>
+            <line x1="10" y1="18" x2="14" y2="18" stroke="#611DD6" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+          <span>ادخل رقم الموبايل الخاص بك</span>
+        </div>
+      </a>
+
+      <!-- IMPORTANT: replace href with the real Vodafone Cash number / wallet link -->
+      <a class="pay-card vodafone" href="#" target="_blank" rel="noopener noreferrer">
+        <div class="pay-logo-row">
+          <svg class="pay-spark" width="18" height="18" viewBox="0 0 30 30" xmlns="http://www.w3.org/2000/svg">
+            <g stroke="#F0464F" stroke-width="4" stroke-linecap="round">
+              <line x1="15" y1="2" x2="15" y2="11"/>
+              <line x1="15" y1="19" x2="15" y2="28"/>
+              <line x1="2" y1="15" x2="11" y2="15"/>
+            </g>
+          </svg>
+          <svg width="34" height="34" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="24" cy="24" r="22" fill="#EC0815"/>
+            <path d="M27 10 C18 12 13 20 14 29 C14.5 34 18 37 22 37 C27 37 30.5 33 30.5 28 C30.5 24 28 21 24.5 20.5 C24.5 15 27 11.5 32 9 C30.5 9.2 28.5 9.5 27 10 Z" fill="#fff"/>
+          </svg>
+          <span style="font-family:Cairo; font-weight:900; font-size:26px; color:#EC0815;">vodafone cash</span>
+          <svg class="pay-spark" width="18" height="18" viewBox="0 0 30 30" xmlns="http://www.w3.org/2000/svg">
+            <g stroke="#F0464F" stroke-width="4" stroke-linecap="round">
+              <line x1="6" y1="15" x2="15" y2="15"/>
+              <line x1="19" y1="8" x2="25" y2="4"/>
+              <line x1="19" y1="22" x2="25" y2="26"/>
+            </g>
+          </svg>
+        </div>
+        <div class="pay-ribbon v">ادفع عن طريق فودافون كاش</div>
+        <div class="pay-input">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="6" y="2" width="12" height="20" rx="3" stroke="#EC0815" stroke-width="2"/>
+            <line x1="10" y1="18" x2="14" y2="18" stroke="#EC0815" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+          <span>ادخل رقم الموبايل الخاص بك</span>
+        </div>
+      </a>
+    </div>
+
+    <div class="footer">
+      <div class="footer-tag">
+        <span>مكتبتك دايماً قريبة منك</span>
+        <span style="color:#EC0815;">❤</span>
+      </div>
+    </div>
+
+    <div class="bottom-wave">
+      <svg class="wave-svg" viewBox="0 0 400 80" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M0 22 C60 45 110 5 180 20 C250 35 320 8 400 24 L400 80 L0 80 Z" fill="#FED341"/>
+        <path d="M0 48 C70 65 130 42 200 52 C270 62 330 46 400 50 L400 80 L0 80 Z" fill="#0C2074"/>
+      </svg>
+
+      <svg class="foot-deco books2-deco" viewBox="0 0 120 90" xmlns="http://www.w3.org/2000/svg">
+        <g transform="rotate(3 60 45)">
+          <rect x="6" y="52" width="108" height="26" rx="7" fill="#F7CA3A"/>
+          <rect x="6" y="26" width="108" height="26" rx="7" fill="#FC4358"/>
+          <rect x="6" y="0" width="108" height="26" rx="7" fill="#246CD0"/>
+        </g>
+      </svg>
+      <svg class="foot-deco plane-deco" viewBox="0 0 70 60" xmlns="http://www.w3.org/2000/svg">
+        <path d="M4 40 L60 8 L36 54 L28 38 Z" fill="#0C2074"/>
+        <path d="M28 38 L60 8 L34 44 Z" fill="#FDB302"/>
+      </svg>
+    </div>
+
+  </div>
+
+<script>
+  (function(){
+    var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var splash = document.getElementById('splash');
+
+    if (reduce){
+      splash.style.display='none';
+      return;
+    }
+
+    setTimeout(function(){
+      splash.classList.add('hide');
+      setTimeout(function(){ splash.style.display='none'; }, 600);
+    }, 2250);
+  })();
+</script>
+</body>
+</html>
